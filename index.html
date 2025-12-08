@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Expense Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <!-- Login/Register Page -->
+    <div id="login-page" class="container fade-in">
+      <div class="login-form slide-up">
+        <div class="form-header">
+          <i class="fas fa-wallet wallet-icon"></i>
+          <h1 class="header-title">Student Expense Tracker</h1>
+        </div>
+
+        <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+        <div id="login-error" class="error-message shake"></div>
+
+        <input type="email" id="login-email" placeholder="Email" required />
+        <input
+          type="password"
+          id="login-password"
+          placeholder="Password"
+          required
+        />
+
+        <button onclick="login()" class="btn-primary">Login</button>
+
+        <p>
+          Don't have an account?
+          <a href="#" onclick="showRegister()">Register</a>
+        </p>
+      </div>
+
+      <div class="register-form hidden slide-up">
+        <div class="form-header">
+          <i class="fas fa-wallet wallet-icon"></i>
+          <h1 class="header-title">Student Expense Tracker</h1>
+        </div>
+
+        <h2><i class="fas fa-user-plus"></i> Register</h2>
+        <div id="register-error" class="error-message shake"></div>
+
+        <input type="text" id="register-name" placeholder="Name" required />
+        <input type="email" id="register-email" placeholder="Email" required />
+        <input
+          type="password"
+          id="register-password"
+          placeholder="Password"
+          required
+        />
+
+        <button onclick="register()" class="btn-primary">Register</button>
+
+        <p>
+          Already have an account? <a href="#" onclick="showLogin()">Login</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="hidden">
+      <!-- Sidebar -->
+      <div class="sidebar slide-in-left">
+        <div class="sidebar-header">
+          <i class="fas fa-chart-line"></i> Student Expenses Tracker
+        </div>
+
+        <a href="#" onclick="showDashboard()" class="sidebar-link">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+
+        <a href="#" onclick="showAddExpenses()" class="sidebar-link">
+          <i class="fas fa-plus-circle"></i> Add Expenses
+        </a>
+
+        <a href="#" onclick="showProfile()" class="sidebar-link">
+          <i class="fas fa-user"></i> Profile
+        </a>
+
+        <a href="#" onclick="showHistory()" class="sidebar-link">
+          <i class="fas fa-history"></i> Expenses History
+        </a>
+
+        <a href="#" onclick="showTeam()" class="sidebar-link">
+          <i class="fas fa-users"></i> Our Team
+        </a>
+
+        <div class="logout">
+          <a href="#" onclick="logout()" class="sidebar-link">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        </div>
+      </div>
+
+      <div class="main-content fade-in">
+        <!-- OUR TEAM PAGE -->
+        <div id="team-content" c lass="hidden">
+          <h2 class="recent"><i class="fas fa-users"></i> Our Team</h2>
+
+          <div class="team-container slide-up">
+            <div class="team-card">
+              <img src="Apollo.jpg" class="team-photo" />
+              <h3>Apollo B. Paderes</h3>
+              <p class="team-desc">Leader</p>
+              <p class="section">BSIT 1A</p>
+            </div>
+
+            <div class="team-card">
+              <img src="Rojela.jpg" class="team-photo" />
+              <h3>Rojela Mae Tutor</h3>
+              <p class="team-desc">Member</p>
+              <p class="section">BSIT 1A</p>
+            </div>
+
+            <div class="team-card">
+              <img src="ariel.jpg" class="team-photo" />
+              <h3>Ariel Jamora</h3>
+              <p class="team-desc">Member</p>
+              <p class="section">BSIT 1A</p>
+            </div>
+          </div>
+        </div>
+
+        <div id="history-content" class="hidden">
+          <h3 class="recent">
+            <i class="fas fa-history"></i> Expenses History
+          </h3>
+
+          <div class="history-container slide-up">
+            <div class="history-controls">
+              <input
+                type="text"
+                id="search-expense"
+                placeholder="Search expenses..."
+              />
+
+              <select id="sort-expense">
+                <option value="date-desc">Sort by Date (Newest)</option>
+                <option value="date-asc">Sort by Date (Oldest)</option>
+                <option value="amount-desc">Sort by Amount (Highest)</option>
+                <option value="amount-asc">Sort by Amount (Lowest)</option>
+              </select>
+            </div>
+
+            <div id="history-list"></div>
+          </div>
+        </div>
+
+        <!-- Dashboard Content -->
+        <div id="dashboard-content">
+          <div class="dashboard-header">
+            <i class="fas fa-tachometer-alt"></i>
+            <span style="margin-left: 10px; font-size: 32px; color: #fff">
+              Dashboard
+            </span>
+          </div>
+
+          <div class="dash-time" id="dash-time">---</div>
+
+          <h2 id="greeting" class="greeting-text" style="margin-top: 30px">
+            <i class="fas fa-smile"></i> Hey!
+          </h2>
+
+          <!-- Summary Cards -->
+          <div class="summary">
+            <div class="summary-card card-hover">
+              <i class="fas fa-calendar-day card-icon"></i>
+              <h3>Daily Spent</h3>
+              <p id="daily-spent">₱0</p>
+            </div>
+            <div class="summary-card card-hover">
+              <i class="fas fa-calendar-week card-icon"></i>
+              <h3>Weekly Spent</h3>
+              <p id="weekly-spent">₱0</p>
+            </div>
+            <div class="summary-card card-hover">
+              <i class="fas fa-calendar-alt card-icon"></i>
+              <h3>Monthly Spent</h3>
+              <p id="monthly-spent">₱0</p>
+            </div>
+          </div>
+
+          <!-- Recent Expenses -->
+          <div class="expense-list slide-up">
+            <h3 class="recent"><i class="fas fa-list"></i> Recent Expenses</h3>
+            <div id="expense-list"></div>
+          </div>
+        </div>
+
+        <!-- Add Expenses -->
+        <div id="add-expenses-content" class="hidden">
+          <h2 class="expense"><i class="fas fa-plus"></i> Add Expenses</h2>
+          <div class="expense-form slide-up">
+            <input
+              type="text"
+              id="expense-description"
+              placeholder="Description"
+              required
+            />
+            <input
+              type="number"
+              id="expense-amount"
+              placeholder="Amount (₱)"
+              required
+            />
+
+            <select id="expense-category">
+              <option value="food">Food (Pagkaon)</option>
+              <option value="transport">Transport (Sakyanan)</option>
+              <option value="entertainment">School Expenses (Amotan)</option>
+              <option value="other">Others (Pagka-gastador!)</option>
+            </select>
+
+            <input type="date" id="expense-date" required />
+
+            <button onclick="addExpense()" class="btn-primary">
+              Add Expense
+            </button>
+          </div>
+        </div>
+
+        <!-- Profile -->
+        <div id="profile-content" class="hidden">
+          <div class="profile-header">
+            <h2 class="propayl"><i class="fas fa-id-card"></i> Profile</h2>
+          </div>
+
+          <div class="profile-body">
+            <label for="profile-name-input"><strong>Name:</strong></label>
+            <input type="text" id="profile-name-input" />
+
+            <label for="profile-email-input"><strong>Email:</strong></label>
+            <input type="email" id="profile-email-input" disabled />
+
+            <button id="save-profile" class="btn-primary">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <div id="register-modal" class="modal fade-in">
+      <div class="modal-content scale-in">
+        <span class="close" onclick="closeModal('register-modal')"
+          >&times;</span
+        >
+        <i class="fas fa-check-circle success-icon"></i>
+        <p>You have completed your registration. Welcome aboard.</p>
+      </div>
+    </div>
+
+    <div id="login-modal" class="modal fade-in">
+      <div class="modal-content scale-in">
+        <span class="close" onclick="closeModal('login-modal')">&times;</span>
+        <i class="fas fa-check-circle success-icon"></i>
+        <p>Access Verified. Loading dashboard...</p>
+      </div>
+    </div>
+
+    <div id="profile-modal" class="modal fade-in hidden">
+      <div class="modal-content scale-in">
+        <span class="close" onclick="closeModal('profile-modal')">&times;</span>
+        <i id="profile-modal-icon" class="fas fa-check-circle success-icon"></i>
+        <p id="profile-modal-message"></p>
+      </div>
+    </div>
+
+    <div id="logout-modal" class="modal fade-in">
+      <div class="modal-content scale-in">
+        <span class="close" onclick="closeModal('logout-modal')">&times;</span>
+        <i class="fas fa-check-circle success-icon"></i>
+        <p>I appreciate your time. Goodbye and take care!.</p>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
